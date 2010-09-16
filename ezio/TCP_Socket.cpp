@@ -1,7 +1,8 @@
 #include "TCP_Socket.hpp"
+#include "Addrinfo.hpp"
 
-TCP_Socket
-TCP_Socket::
+ezio::TCP_Socket
+ezio::TCP_Socket::
 connect(
     std::string const & node,
     std::string const & service)
@@ -11,8 +12,8 @@ connect(
   return sock;
 }
 
-TCP_Socket
-TCP_Socket::
+ezio::TCP_Socket
+ezio::TCP_Socket::
 connect(
     std::string const & node,
     int port)
@@ -22,8 +23,8 @@ connect(
   return sock;
 }
 
-TCP_Socket
-TCP_Socket::
+ezio::TCP_Socket
+ezio::TCP_Socket::
 connect(
     Addrinfo const & addrinfo)
 {

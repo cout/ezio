@@ -1,7 +1,9 @@
-#include "ezio.hpp"
+#include "ezio/TCP_Socket.hpp"
 
 int main()
 {
-  TCPSocket sock(TCPSocket::connect("google.com", 80));
+  using namespace ezio;
+
+  TCP_Socket sock(TCP_Socket::connect("google.com", 80));
 }
 

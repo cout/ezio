@@ -1,3 +1,5 @@
 *~
 .*.swp
+*.cpp.gch
+*.hpp.gch
 

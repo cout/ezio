@@ -2,14 +2,14 @@
 
 #include <unistd.h>
 
-File::
+ezio::File::
 File()
   : fd_(-1)
 {
 }
 
 void
-File::
+ezio::File::
 close()
 {
   if (fd_ >= 0)
@@ -19,7 +19,7 @@ close()
 }
 
 void
-File::
+ezio::File::
 fdopen(int fd)
 {
   if (fd_ >= 0)

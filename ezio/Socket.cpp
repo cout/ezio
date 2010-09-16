@@ -1,11 +1,15 @@
 #include "Socket.hpp"
+#include "Addrinfo.hpp"
+#include "Connection_Failure.hpp"
+
+#include <netdb.h>
 
 #include <sstream>
 
 #include <sys/socket.h>
 
 void
-Socket::
+ezio::Socket::
 connect(
     std::string const & node,
     std::string const & service)
@@ -15,7 +19,7 @@ connect(
 }
 
 void
-Socket::
+ezio::Socket::
 connect(
     std::string const & node,
     int port)
@@ -27,7 +31,7 @@ connect(
 }
 
 void
-Socket::
+ezio::Socket::
 connect(
     Addrinfo const & addrinfo)
 {

@@ -1,13 +1,15 @@
 #include "Shared_Object.hpp"
 
-Shared_Object::
+#include <algorithm>
+
+ezio::Shared_Object::
 Shared_Object()
   : prev_(this)
   , next_(this)
 {
 }
 
-Shared_Object::
+ezio::Shared_Object::
 ~Shared_Object()
 {
   prev_->next_ = next_;
@@ -19,8 +21,8 @@ Shared_Object::
   }
 }
 
-Shared_Object &
-Shared_Object::
+ezio::Shared_Object &
+ezio::Shared_Object::
 operator=(
     Shared_Object const & rhs)
 {
@@ -30,7 +32,7 @@ operator=(
 }
 
 void
-Shared_Object::
+ezio::Shared_Object::
 swap(
     Shared_Object & shared_object)
 {
@@ -38,7 +40,7 @@ swap(
   std::swap(next_, shared_object.next_);
 }
 
-Shared_Object::
+ezio::Shared_Object::
 Shared_Object(
     Shared_Object const & shared_object)
 {

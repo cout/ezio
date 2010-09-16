@@ -1,6 +1,8 @@
 #ifndef ezio__Getaddrinfo_Exception__hpp_
 #define ezio__Getaddrinfo_Exception__hpp_
 
+#include "Exception.hpp"
+
 namespace ezio
 {
 

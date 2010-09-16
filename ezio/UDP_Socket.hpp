@@ -1,13 +1,14 @@
 #ifndef ezio__UDP_Socket__hpp_
 #define ezio__UDP_Socket__hpp_
 
+#include "Socket.hpp"
+
 namespace ezio
 {
 
-class UDPSocket
+class UDP_Socket
   : public Socket
 {
-public:
 };
 
 }

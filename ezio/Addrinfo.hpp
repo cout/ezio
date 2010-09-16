@@ -1,9 +1,13 @@
 #ifndef ezio__Addrinfo__hpp_
 #define ezio__Addrinfo__hpp_
 
+#include "Shared_Object.hpp"
+
 #include <string>
 
 #include <sys/types.h>
+
+struct addrinfo;
 
 namespace ezio
 {

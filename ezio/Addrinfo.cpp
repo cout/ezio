@@ -1,8 +1,9 @@
 #include "Addrinfo.hpp"
+#include "Getaddrinfo_Exception.hpp"
 
 #include <netdb.h>
 
-Addrinfo::
+ezio::Addrinfo::
 Addrinfo(
     std::string const & node,
     std::string const & service)
@@ -15,7 +16,7 @@ Addrinfo(
 }
 
 void
-Addrinfo::
+ezio::Addrinfo::
 close()
 {
   ::freeaddrinfo(addrinfo_);

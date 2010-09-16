@@ -1,10 +1,14 @@
 #ifndef ezio__Socket__hpp_
 #define ezio__Socket__hpp_
 
+#include "File.hpp"
+
 #include <string>
 
 namespace ezio
 {
+
+class Addrinfo;
 
 class Socket
   : public File

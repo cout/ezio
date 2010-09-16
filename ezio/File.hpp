@@ -1,6 +1,8 @@
 #ifndef ezio__File__hpp_
 #define ezio__File__hpp_
 
+#include "Shared_Object.hpp"
+
 namespace ezio
 {
 

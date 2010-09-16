@@ -1,0 +1,12 @@
+ezio - A library for doing simple I/O operations (sockets and files) in
+C++
+
+Premises:
+  - Easy things should be easy
+  - Hard things should be easy, but not at the expense of easy things
+    being hard
+  - Programs should be fast, but not at the expense of legibility
+  - Polymorphism is not expensive in an IO-bound application
+  - Memory allocations can be expensive and should be avoidable in the
+    critical path
+

@@ -10,15 +10,21 @@ class System_Exception
   : public Exception
 {
 public:
-  System_Exception(int errno);
+  System_Exception(
+      char const * function);
+
+  System_Exception(
+      char const * function,
+      int errno_value);
 
   virtual char const * what() const throw();
 
 private:
+  char const * function_;
   int errno_;
 };
 
-}
+} // ezio
 
 #endif // ezio__System_Exception__hpp_
 

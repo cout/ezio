@@ -1,4 +1,4 @@
-TEST_OBJS = \
+EZIO_OBJS = \
 			 ezio/Addrinfo.o \
 			 ezio/Connection_Failure.o \
 			 ezio/File.o \
@@ -9,7 +9,14 @@ TEST_OBJS = \
 			 ezio/System_Exception.o \
 			 ezio/TCP_Socket.o \
 			 ezio/UDP_Socket.o \
+			 ezio/Bind_Failure.o \
+			 ezio/TCP_Server.o \
 
-test: $(TEST_OBJS) test.o
+all: test server
+
+test: $(EZIO_OBJS) test.o
+	g++ $(LDFLAGS) $^ -o $@
+
+server: $(EZIO_OBJS) server.o
 	g++ $(LDFLAGS) $^ -o $@
 

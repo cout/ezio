@@ -2,9 +2,9 @@
 #include "Addrinfo.hpp"
 #include "Connection_Failure.hpp"
 
-#include <netdb.h>
-
 #include <sstream>
+
+#include <netdb.h>
 
 #include <sys/socket.h>
 

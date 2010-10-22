@@ -22,7 +22,7 @@ private:
   int fd_;
 };
 
-}
+} // ezio
 
 #endif // ezio__File__hpp_
 

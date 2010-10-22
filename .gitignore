@@ -2,4 +2,6 @@
 .*.swp
 *.cpp.gch
 *.hpp.gch
-
+ezio/*.o
+test
+test.o

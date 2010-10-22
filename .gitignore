@@ -5,3 +5,5 @@
 ezio/*.o
 test
 test.o
+server
+server.o

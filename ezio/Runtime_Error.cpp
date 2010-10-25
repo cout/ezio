@@ -3,14 +3,7 @@
 ezio::Runtime_Error::
 Runtime_Error(
     std::string const & msg)
-  : msg_(msg)
+  : Exception(msg)
 {
-}
-
-char const *
-ezio::Runtime_Error::
-what() const throw()
-{
-  return msg_.c_str();
 }
 

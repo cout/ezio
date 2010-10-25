@@ -3,7 +3,6 @@ EZIO_OBJS = \
 			 ezio/Connection_Failure.o \
 			 ezio/File.o \
 			 ezio/Getaddrinfo_Exception.o \
-			 ezio/Runtime_Error.o \
 			 ezio/Shared_Object.o \
 			 ezio/Socket.o \
 			 ezio/System_Exception.o \
@@ -18,6 +17,7 @@ EZIO_OBJS = \
 			 ezio/Exception.o \
 			 ezio/Regex.o \
 			 ezio/File_Event.o \
+			 ezio/Runtime_Error.o \
 
 CXXFLAGS += -g -ggdb
 

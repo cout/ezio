@@ -22,7 +22,7 @@ System_Exception(
 
 char const *
 ezio::System_Exception::
-what() const throw()
+message() const
 {
   // TODO: include function_ in the output
   // TODO: use strerror_r

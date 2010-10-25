@@ -21,6 +21,8 @@ public:
 
   virtual char const * what() const throw();
 
+  virtual char const * message() const;
+
 private:
   Backtrace backtrace_;
   mutable std::string what_;

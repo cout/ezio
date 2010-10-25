@@ -14,11 +14,6 @@ class Runtime_Error
 public:
   Runtime_Error(
       std::string const & msg);
-
-  char const * what() const throw();
-
-private:
-  std::string const & msg_;
 };
 
 }

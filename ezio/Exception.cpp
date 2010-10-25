@@ -39,7 +39,7 @@ what() const throw()
 
   std::stringstream strm;
 
-  strm << std::runtime_error::what() << std::endl;
+  strm << message() << std::endl;
 
   BOOST_FOREACH(Backtrace::Location const & loc, backtrace_.locations())
   {
@@ -48,5 +48,12 @@ what() const throw()
 
   what_ = strm.str();
   return what_.c_str();
+}
+
+char const *
+ezio::Exception::
+message() const
+{
+  return std::runtime_error::what();
 }
 

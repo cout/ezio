@@ -87,7 +87,7 @@ ezio::Regex::Match::
 str(size_t n) const
 {
   // TODO: detect out-of-bounds?
-  regmatch_t * regmatch(&regmatch_[n]);
+  regmatch_t * regmatch(&regmatch_[n-1]);
   return std::string(str_ + regmatch->rm_so, str_ + regmatch->rm_eo);
 }
 

@@ -17,7 +17,7 @@ public:
       char const * function,
       int errno_value);
 
-  virtual char const * what() const throw();
+  virtual char const * message() const;
 
 private:
   char const * function_;

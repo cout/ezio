@@ -22,9 +22,14 @@ LDFLAGS += -lev
 
 all: test server
 
+clean:
+	$(RM) $(EZIO_OBJS) test server
+
 test: $(EZIO_OBJS) test.o
-	g++ $(LDFLAGS) $^ -o $@
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 server: $(EZIO_OBJS) server.o
-	g++ $(LDFLAGS) $^ -o $@
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+.PHONY: all clean
 

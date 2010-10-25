@@ -1,3 +1,5 @@
+# === global variables ===
+
 OBJEXT = o
 SOEXT = so
 
@@ -5,10 +7,20 @@ TARGETS = libezio.$(SOEXT) sample/test sample/server
 
 TOPLEVEL_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
-all: $(TARGETS)
+CXXFLAGS += -g -ggdb
+
+OBJECTS =
+
+# === conventional rules ===
+
+all:
 
 clean:
 	$(RM) $(OBJECTS) $(TARGETS)
+
+.PHONY: all clean
+
+# === libezio.so ===
 
 EZIO_SOURCES = \
 			 ezio/Addrinfo \
@@ -34,32 +46,48 @@ EZIO_SOURCES = \
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)
 
-CXXFLAGS += -g -ggdb
-
 EZIO_LDFLAGS += -lev
-
-CXXFLAGS += -MMD -MP
-EZIO_DEP_FILES=$(EZIO_OBJS:%.$(OBJEXT)=%.d)
--include $(EZIO_DEP_FILES)
-
-SAMPLE_CXXFLAGS += -I$(TOPLEVEL_DIR)
-SAMPLE_LDFLAGS += -L$(TOPLEVEL_DIR) -lezio
 
 libezio.$(SOEXT): $(EZIO_OBJS)
 	$(CXX) $(EZIO_LDFLAGS) $(LDFLAGS) -shared $^ -o $@
 
+TARGETS += libezio.$(SOEXT)
+
+all: libezio.$(SOEXT)
+
+# === sample rules ===
+
+SAMPLE_CXXFLAGS += -I$(TOPLEVEL_DIR)
+SAMPLE_LDFLAGS += -L$(TOPLEVEL_DIR) -lezio
+
 sample/%.$(OBJEXT): sample/%.cpp
-	$(CXX) $(CPPFLAGS) $(SAMPLE_CXXFLAGS) $(CXXFLAGS) -c $^ -o $@
+	$(CXX) $(CPPFLAGS) $(SAMPLE_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
+
+# === sample/test ===
 
 sample/test: sample/test.$(OBJEXT)
 	$(CXX) $(SAMPLE_LDFLAGS) $(LDFLAGS) $^ -o $@
 
 OBJECTS += sample/test.$(OBJEXT)
 
+TARGETS += sample/test
+
+all: sample/test
+
+# === sample/server ===
+
 sample/server: sample/server.$(OBJEXT)
 	$(CXX) $(SAMPLE_LDFLAGS) $(LDFLAGS) $^ -o $@
 
 OBJECTS += sample/server.$(OBJEXT)
 
-.PHONY: all clean
+TARGETS += sample/server
+
+all: sample/server
+
+# === dependencies ===
+
+CXXFLAGS += -MMD -MP
+DEP_FILES = $(OBJECTS:%.$(OBJEXT)=%.d)
+-include $(DEP_FILES)
 

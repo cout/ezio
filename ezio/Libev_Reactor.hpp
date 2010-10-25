@@ -14,18 +14,18 @@ class Libev_Reactor
 public:
   Libev_Reactor();
 
-  void run();
+  virtual void run();
 
-  void stop();
+  virtual void stop();
 
-  void * io_add(
+  virtual void * io_add(
       File & file,
       File_Callback & file_callback,
       File_Event_Enum event1,
       File_Event_Enum event2 = File_Event::NONE,
       File_Event_Enum event3 = File_Event::NONE);
 
-  void io_remove(
+  virtual void io_remove(
       void * key);
 
 private:

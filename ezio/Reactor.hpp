@@ -31,6 +31,20 @@ public:
 
   virtual ~Reactor();
 
+  virtual void run() = 0;
+
+  virtual void stop() = 0;
+
+  virtual void * io_add(
+      File & file,
+      File_Callback & file_callback,
+      File_Event_Enum event1,
+      File_Event_Enum event2 = File_Event::NONE,
+      File_Event_Enum event3 = File_Event::NONE) = 0;
+
+  virtual void io_remove(
+      void * key) = 0;
+
   struct File_Callback
     : public std::unary_function<File, void>
   {

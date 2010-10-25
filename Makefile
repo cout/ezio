@@ -1,15 +1,14 @@
 # === global variables ===
 
+TOPLEVEL_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
 OBJEXT = o
 SOEXT = so
 
-TARGETS = libezio.$(SOEXT) sample/test sample/server
-
-TOPLEVEL_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+OBJECTS =
+TARGETS =
 
 CXXFLAGS += -g -ggdb
-
-OBJECTS =
 
 # === conventional rules ===
 
@@ -19,6 +18,12 @@ clean:
 	$(RM) $(OBJECTS) $(TARGETS)
 
 .PHONY: all clean
+
+# === target rules ===
+
+link_so = $(CXX) $(1) $(LDFLAGS) -shared $^ -o $@
+compile_cpp = $(CXX) $(CPPFLAGS) $(1) $(CXXFLAGS) -c $< -o $@
+link_bin = $(CXX) $(1) $(LDFLAGS) $^ -o $@
 
 # === libezio.so ===
 
@@ -49,7 +54,7 @@ OBJECTS += $(EZIO_OBJS)
 EZIO_LDFLAGS += -lev
 
 libezio.$(SOEXT): $(EZIO_OBJS)
-	$(CXX) $(EZIO_LDFLAGS) $(LDFLAGS) -shared $^ -o $@
+	$(call link_so, $(EZIO_LDFLAGS))
 
 TARGETS += libezio.$(SOEXT)
 
@@ -61,12 +66,12 @@ SAMPLE_CXXFLAGS += -I$(TOPLEVEL_DIR)
 SAMPLE_LDFLAGS += -L$(TOPLEVEL_DIR) -lezio
 
 sample/%.$(OBJEXT): sample/%.cpp
-	$(CXX) $(CPPFLAGS) $(SAMPLE_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(call compile_cpp, $(SAMPLE_CXXFLAGS))
 
 # === sample/test ===
 
 sample/test: sample/test.$(OBJEXT)
-	$(CXX) $(SAMPLE_LDFLAGS) $(LDFLAGS) $^ -o $@
+	$(call link_bin, $(SAMPLE_LDFLAGS))
 
 OBJECTS += sample/test.$(OBJEXT)
 
@@ -77,7 +82,7 @@ all: sample/test
 # === sample/server ===
 
 sample/server: sample/server.$(OBJEXT)
-	$(CXX) $(SAMPLE_LDFLAGS) $(LDFLAGS) $^ -o $@
+	$(call link_bin, $(SAMPLE_LDFLAGS))
 
 OBJECTS += sample/server.$(OBJEXT)
 

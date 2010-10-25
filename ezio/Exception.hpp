@@ -13,6 +13,8 @@ class Exception
   : public std::runtime_error
 {
 public:
+  Exception();
+
   Exception(std::string const & msg);
 
   virtual ~Exception() throw();

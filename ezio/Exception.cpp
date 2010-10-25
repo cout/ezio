@@ -5,6 +5,14 @@
 #include <sstream>
 
 ezio::Exception::
+Exception()
+  : std::runtime_error("")
+  , backtrace_(2)
+  , what_()
+{
+}
+
+ezio::Exception::
 Exception(
     std::string const & msg)
   : std::runtime_error(msg)

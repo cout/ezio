@@ -27,6 +27,12 @@ class Reactor
   : private Not_Copyable
 {
 public:
+  struct File_Callback
+    : public std::unary_function<File, void>
+  {
+    virtual void operator()(File &) = 0;
+  };
+
   Reactor();
 
   virtual ~Reactor();
@@ -44,12 +50,6 @@ public:
 
   virtual void io_remove(
       void * key) = 0;
-
-  struct File_Callback
-    : public std::unary_function<File, void>
-  {
-    virtual void operator()(File &) = 0;
-  };
 };
 
 } // ezio

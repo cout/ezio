@@ -12,7 +12,7 @@ struct New_Connection_Callback
   : public Reactor::File_Callback
 {
 
-virtual void operator()(File & file)
+virtual void operator()(File & file, File_Event /* file_event */)
 {
   std::cout << "New connection" << std::endl;
   TCP_Server server(file);

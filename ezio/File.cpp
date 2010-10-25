@@ -10,7 +10,8 @@ File()
 
 ezio::File::
 File(File const & file)
-  : fd_(file.fd_)
+  : Shared_Object(file)
+  , fd_(file.fd_)
 {
 }
 

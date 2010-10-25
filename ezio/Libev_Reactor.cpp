@@ -43,6 +43,30 @@ struct Libev_Io_Watcher
   ev_io io_;
 };
 
+int libev_event_type(ezio::File_Event file_event)
+{
+  int revents = 0;
+
+  if (file_event.read())
+  {
+    revents |= EV_READ;
+  }
+
+  if (file_event.write())
+  {
+    revents |= EV_WRITE;
+  }
+
+  return revents;
+}
+
+File_Event ezio_event_type(int ev_event)
+{
+  return File_Event(
+      (ev_event & EV_READ)  ? File_Event::READ  : File_Event::NONE,
+      (ev_event & EV_WRITE) ? File_Event::WRITE : File_Event::NONE);
+}
+
 } // namespace
 
 } // ezio
@@ -52,7 +76,7 @@ void
 ezio_libev_file_callback(EV_P_ ev_io * io, int revents)
 {
   ezio::Libev_Io_Watcher * watcher = ezio::Libev_Io_Watcher::from_ev_io(io);
-  watcher->callback_(watcher->file_); // TODO
+  watcher->callback_(watcher->file_, ezio::ezio_event_type(revents));
 }
 
 ezio::Libev_Reactor::
@@ -63,17 +87,6 @@ Libev_Reactor()
 
 namespace
 {
-
-int libev_event_type(ezio::File_Event_Enum file_event)
-{
-  switch(file_event)
-  {
-    case ezio::File_Event::NONE: return 0;
-    case ezio::File_Event::READ: return EV_READ;
-    case ezio::File_Event::WRITE: return EV_WRITE;
-    default: throw std::invalid_argument("invalid file event");
-  }
-}
 
 } // namespace
 
@@ -96,14 +109,9 @@ ezio::Libev_Reactor::
 io_add(
     File & file,
     File_Callback & file_callback,
-    File_Event_Enum event1,
-    File_Event_Enum event2,
-    File_Event_Enum event3)
+    File_Event file_event)
 {
-  int revents =
-    libev_event_type(event1) |
-    libev_event_type(event2) |
-    libev_event_type(event3);
+  int revents = libev_event_type(file_event);
 
   std::auto_ptr<Libev_Io_Watcher> watcher(
       new Libev_Io_Watcher(file, file_callback, revents));

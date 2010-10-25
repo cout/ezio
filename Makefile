@@ -17,6 +17,7 @@ EZIO_OBJS = \
 			 ezio/Backtrace.o \
 			 ezio/Exception.o \
 			 ezio/Regex.o \
+			 ezio/File_Event.o \
 
 LDFLAGS += -lev
 

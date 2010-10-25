@@ -4,9 +4,10 @@
 *.hpp.gch
 ezio/*.o
 ezio/*.d
-test
-test.o
-test.d
-server
-server.o
-server.d
+sample/test
+sample/test.o
+sample/test.d
+sample/server
+sample/server.o
+sample/server.d
+libezio.so

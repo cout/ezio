@@ -21,9 +21,29 @@ clean:
 
 # === target rules ===
 
-link_so = $(CXX) $(1) $(LDFLAGS) -shared $^ -o $@
+link_so = $(CXX) -shared $(1) $(LDFLAGS) $^ -o $@
 compile_cpp = $(CXX) $(CPPFLAGS) $(1) $(CXXFLAGS) -c $< -o $@
 link_bin = $(CXX) $(1) $(LDFLAGS) $^ -o $@
+
+define so_template
+TARGETS += $(1).$$(SOEXT)
+OBJECTS += $$($(join $(1),_OBJS))
+
+all: $(1).$$(SOEXT)
+
+$(1).$$(SOEXT): $$($(join $(1),_OBJS))
+	$$(CXX) -shared $$($(join $(1),_LDFLAGS)) $$(LDFLAGS) $$^ -o $$@
+endef
+
+define bin_template
+OBJECTS += $(1).$(OBJEXT)
+TARGETS += $(1)
+
+all: $(1)
+
+$(1): $(1).$$(OBJEXT)
+	$$(CXX) $$($(join $(1),_LDFLAGS)) $$(LDFLAGS) $$^ -o $$@
+endef
 
 # === libezio.so ===
 
@@ -48,17 +68,10 @@ EZIO_SOURCES = \
 			 ezio/File_Event \
 			 ezio/Runtime_Error \
 
-EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
-OBJECTS += $(EZIO_OBJS)
+libezio_OBJS := $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
+libezio_LDFLAGS = -lev
 
-EZIO_LDFLAGS += -lev
-
-libezio.$(SOEXT): $(EZIO_OBJS)
-	$(call link_so, $(EZIO_LDFLAGS))
-
-TARGETS += libezio.$(SOEXT)
-
-all: libezio.$(SOEXT)
+$(eval $(call so_template, libezio))
 
 # === sample rules ===
 
@@ -70,25 +83,15 @@ sample/%.$(OBJEXT): sample/%.cpp
 
 # === sample/test ===
 
-sample/test: sample/test.$(OBJEXT)
-	$(call link_bin, $(SAMPLE_LDFLAGS))
+sample/test_LDFLAGS = $(SAMPLE_LDFLAGS)
 
-OBJECTS += sample/test.$(OBJEXT)
-
-TARGETS += sample/test
-
-all: sample/test
+$(eval $(call bin_template, sample/test))
 
 # === sample/server ===
 
-sample/server: sample/server.$(OBJEXT)
-	$(call link_bin, $(SAMPLE_LDFLAGS))
+sample/server_LDFLAGS = $(SAMPLE_LDFLAGS)
 
-OBJECTS += sample/server.$(OBJEXT)
-
-TARGETS += sample/server
-
-all: sample/server
+$(eval $(call bin_template, sample/server))
 
 # === dependencies ===
 

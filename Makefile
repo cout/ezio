@@ -1,6 +1,8 @@
 OBJEXT = o
 
-TARGETS = test server
+TARGETS = sample/test sample/server
+
+TOPLEVEL_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 all: $(TARGETS)
 
@@ -39,11 +41,16 @@ CXXFLAGS += -MMD -MP
 EZIO_DEP_FILES=$(EZIO_OBJS:%.$(OBJEXT)=%.d)
 -include $(EZIO_DEP_FILES)
 
-test: $(EZIO_OBJS) test.$(OBJEXT)
-	$(CXX) $(LDFLAGS) $^ -o $@
+SAMPLE_CXXFLAGS += -I$(TOPLEVEL_DIR)
 
-server: $(EZIO_OBJS) server.$(OBJEXT)
-	$(CXX) $(LDFLAGS) $^ -o $@
+sample/%.$(OBJEXT): sample/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(SAMPLE_CXXFLAGS) -c $^ -o $@
+
+sample/test: $(EZIO_OBJS) sample/test.$(OBJEXT)
+	$(CXX) $(SAMPLE_CXXFLAGS) $(LDFLAGS) $^ -o $@
+
+sample/server: $(EZIO_OBJS) sample/server.$(OBJEXT)
+	$(CXX) $(SAMPLE_CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 .PHONY: all clean
 

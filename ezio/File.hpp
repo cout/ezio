@@ -3,6 +3,8 @@
 
 #include "Shared_Object.hpp"
 
+#include <string>
+
 namespace ezio
 {
 
@@ -22,8 +24,16 @@ public:
 
   void fdopen(int fd);
 
+  std::string getline();
+  std::string getline(char delim);
+  void getline(std::string & str);
+  void getline(std::string & str, char delim);
+
 private:
   int fd_;
+
+  class Buffer;
+  Buffer * buffer_;
 };
 
 } // ezio

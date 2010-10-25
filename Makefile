@@ -19,6 +19,8 @@ EZIO_OBJS = \
 			 ezio/Regex.o \
 			 ezio/File_Event.o \
 
+CXXFLAGS += -g -ggdb
+
 LDFLAGS += -lev
 
 all: test server

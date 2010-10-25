@@ -2,21 +2,40 @@
 #define ezio__Reactor__hpp_
 
 #include "File.hpp"
+#include "Not_Copyable.hpp"
+
+#include <functional>
 
 namespace ezio
 {
 
-enum File_Event
+namespace File_Event
 {
-  FE_NONE,
-  FE_READ,
-  FE_WRITE,
+
+enum File_Event_Enum
+{
+  NONE,
+  READ,
+  WRITE,
 };
 
+} // File_Event
+
+using File_Event::File_Event_Enum;
+
 class Reactor
+  : private Not_Copyable
 {
 public:
-  typedef std::unary_function<void, File> File_Callback;
+  Reactor();
+
+  virtual ~Reactor();
+
+  struct File_Callback
+    : public std::unary_function<File, void>
+  {
+    virtual void operator()(File &) = 0;
+  };
 };
 
 } // ezio

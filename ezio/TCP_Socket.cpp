@@ -1,6 +1,22 @@
 #include "TCP_Socket.hpp"
 #include "Addrinfo.hpp"
 
+ezio::TCP_Socket::
+TCP_Socket()
+{
+}
+
+ezio::TCP_Socket::
+TCP_Socket(File const & file)
+  : Socket(file)
+{
+}
+
+ezio::TCP_Socket::
+~TCP_Socket()
+{
+}
+
 ezio::TCP_Socket
 ezio::TCP_Socket::
 connect(

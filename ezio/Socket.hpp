@@ -14,6 +14,12 @@ class Socket
   : public File
 {
 public:
+  Socket();
+
+  Socket(File file);
+
+  virtual ~Socket();
+
   void connect(
       std::string const & node,
       std::string const & service);

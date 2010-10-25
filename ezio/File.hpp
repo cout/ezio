@@ -12,6 +12,10 @@ class File
 public:
   File();
 
+  File(File const & file);
+
+  virtual ~File();
+
   virtual void close();
 
   int fd() const { return fd_; }

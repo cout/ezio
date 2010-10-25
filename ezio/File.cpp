@@ -8,6 +8,17 @@ File()
 {
 }
 
+ezio::File::
+File(File const & file)
+  : fd_(file.fd_)
+{
+}
+
+ezio::File::
+~File()
+{
+}
+
 void
 ezio::File::
 close()

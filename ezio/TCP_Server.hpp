@@ -12,6 +12,10 @@ class TCP_Server
 public:
   static int const DEFAULT_BACKLOG=5;
 
+  TCP_Server(File const & file);
+
+  virtual ~TCP_Server();
+
   TCP_Server(
       std::string const & node,
       std::string const & service,

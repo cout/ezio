@@ -11,6 +11,17 @@
 #include <sys/socket.h>
 
 ezio::TCP_Server::
+TCP_Server(File const & file)
+  : TCP_Socket(file)
+{
+}
+
+ezio::TCP_Server::
+~TCP_Server()
+{
+}
+
+ezio::TCP_Server::
 TCP_Server(
     std::string const & node,
     std::string const & service,

@@ -3,6 +3,8 @@
 
 #include "Reactor.hpp"
 
+#include <ev.h>
+
 namespace ezio
 {
 
@@ -12,15 +14,23 @@ class Libev_Reactor
 public:
   Libev_Reactor();
 
+  void run();
+
   void stop();
 
-  void io_add(
-      File file,
-      File_Callback file_callback,
-      File_Event event1,
-      File_Event event2 = FE_NONE,
-      File_Event event3 = FE_NONE);
-}
+  void * io_add(
+      File & file,
+      File_Callback & file_callback,
+      File_Event_Enum event1,
+      File_Event_Enum event2 = File_Event::NONE,
+      File_Event_Enum event3 = File_Event::NONE);
+
+  void io_remove(
+      void * key);
+
+private:
+  struct ev_loop * loop_;
+};
 
 } // ezio
 

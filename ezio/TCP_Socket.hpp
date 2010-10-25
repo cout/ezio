@@ -14,6 +14,12 @@ class TCP_Socket
   : public Socket
 {
 public:
+  TCP_Socket();
+
+  TCP_Socket(File const & file);
+
+  virtual ~TCP_Socket();
+
   static TCP_Socket connect(
       std::string const & node,
       std::string const & service);

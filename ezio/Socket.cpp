@@ -8,6 +8,22 @@
 
 #include <sys/socket.h>
 
+ezio::Socket::
+Socket()
+{
+}
+
+ezio::Socket::
+Socket(File file)
+  : File(file)
+{
+}
+
+ezio::Socket::
+~Socket()
+{
+}
+
 void
 ezio::Socket::
 connect(

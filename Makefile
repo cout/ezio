@@ -11,6 +11,14 @@ EZIO_OBJS = \
 			 ezio/UDP_Socket.o \
 			 ezio/Bind_Failure.o \
 			 ezio/TCP_Server.o \
+			 ezio/Reactor.o \
+			 ezio/Libev_Reactor.o \
+			 ezio/Name_Demangler.o \
+			 ezio/Backtrace.o \
+			 ezio/Exception.o \
+			 ezio/Regex.o \
+
+LDFLAGS += -lev
 
 all: test server
 

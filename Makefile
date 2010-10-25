@@ -1,37 +1,45 @@
-EZIO_OBJS = \
-			 ezio/Addrinfo.o \
-			 ezio/Connection_Failure.o \
-			 ezio/File.o \
-			 ezio/Getaddrinfo_Exception.o \
-			 ezio/Shared_Object.o \
-			 ezio/Socket.o \
-			 ezio/System_Exception.o \
-			 ezio/TCP_Socket.o \
-			 ezio/UDP_Socket.o \
-			 ezio/Bind_Failure.o \
-			 ezio/TCP_Server.o \
-			 ezio/Reactor.o \
-			 ezio/Libev_Reactor.o \
-			 ezio/cxx_demangle.o \
-			 ezio/Backtrace.o \
-			 ezio/Exception.o \
-			 ezio/Regex.o \
-			 ezio/File_Event.o \
-			 ezio/Runtime_Error.o \
+OBJEXT = o
 
-CXXFLAGS += -g -ggdb
-
-LDFLAGS += -lev
+EZIO_SOURCES = \
+			 ezio/Addrinfo \
+			 ezio/Connection_Failure \
+			 ezio/File \
+			 ezio/Getaddrinfo_Exception \
+			 ezio/Shared_Object \
+			 ezio/Socket \
+			 ezio/System_Exception \
+			 ezio/TCP_Socket \
+			 ezio/UDP_Socket \
+			 ezio/Bind_Failure \
+			 ezio/TCP_Server \
+			 ezio/Reactor \
+			 ezio/Libev_Reactor \
+			 ezio/cxx_demangle \
+			 ezio/Backtrace \
+			 ezio/Exception \
+			 ezio/Regex \
+			 ezio/File_Event \
+			 ezio/Runtime_Error \
 
 all: test server
 
 clean:
 	$(RM) $(EZIO_OBJS) test server
 
-test: $(EZIO_OBJS) test.o
+EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
+
+CXXFLAGS += -g -ggdb
+
+LDFLAGS += -lev
+
+CXXFLAGS += -MMD -MP
+EZIO_DEP_FILES=$(EZIO_OBJS:%.$(OBJEXT)=%.d)
+-include $(EZIO_DEP_FILES)
+
+test: $(EZIO_OBJS) test.$(OBJEXT)
 	$(CXX) $(LDFLAGS) $^ -o $@
 
-server: $(EZIO_OBJS) server.o
+server: $(EZIO_OBJS) server.$(OBJEXT)
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 .PHONY: all clean

@@ -3,7 +3,10 @@
 *.cpp.gch
 *.hpp.gch
 ezio/*.o
+ezio/*.d
 test
 test.o
+test.d
 server
 server.o
+server.d

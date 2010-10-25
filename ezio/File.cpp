@@ -188,3 +188,25 @@ getline(std::string & str, char delim)
   buffer_->erase(0, found_idx);
 }
 
+char
+ezio::File::
+getc()
+{
+  if (!buffer_)
+  {
+    // TODO: should be possible to avoid the allocation, but for now
+    // this is easy
+    buffer_ = new Buffer;
+  }
+
+  while (buffer_->size() == 0)
+  {
+    buffer_->fill_from(fd_);
+  }
+
+  char c = (*buffer_)[0];
+  buffer_->erase(0, 1);
+
+  return c;
+}
+

@@ -29,6 +29,8 @@ public:
   void getline(std::string & str);
   void getline(std::string & str, char delim);
 
+  char getc();
+
 private:
   int fd_;
 

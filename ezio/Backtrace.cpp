@@ -1,6 +1,7 @@
 #include "Backtrace.hpp"
-#include "Name_Demangler.hpp"
 #include "Regex.hpp"
+
+#include "cxx_demangle.hpp"
 
 #include <sstream>
 #include <cstdlib>

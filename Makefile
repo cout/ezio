@@ -13,7 +13,7 @@ EZIO_OBJS = \
 			 ezio/TCP_Server.o \
 			 ezio/Reactor.o \
 			 ezio/Libev_Reactor.o \
-			 ezio/Name_Demangler.o \
+			 ezio/cxx_demangle.o \
 			 ezio/Backtrace.o \
 			 ezio/Exception.o \
 			 ezio/Regex.o \

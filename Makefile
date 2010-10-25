@@ -1,5 +1,12 @@
 OBJEXT = o
 
+TARGETS = test server
+
+all: $(TARGETS)
+
+clean:
+	$(RM) $(GENERATED_FILES) $(TARGETS)
+
 EZIO_SOURCES = \
 			 ezio/Addrinfo \
 			 ezio/Connection_Failure \
@@ -21,12 +28,8 @@ EZIO_SOURCES = \
 			 ezio/File_Event \
 			 ezio/Runtime_Error \
 
-all: test server
-
-clean:
-	$(RM) $(EZIO_OBJS) test server
-
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
+GENERATED_FILES += $(EZIO_OBJS)
 
 CXXFLAGS += -g -ggdb
 

@@ -24,8 +24,13 @@ public:
 
   void fdopen(int fd);
 
-  std::string getline();
-  std::string getline(char delim);
+  void puts(std::string const & line);
+  void puts(char const * line);
+  void puts(char const * line, size_t bytes);
+
+  std::string gets();
+  std::string gets(char delim);
+
   void getline(std::string & str);
   void getline(std::string & str, char delim);
 
@@ -35,7 +40,7 @@ private:
   int fd_;
 
   class Buffer;
-  Buffer * buffer_;
+  Buffer * read_buffer_;
 };
 
 } // ezio

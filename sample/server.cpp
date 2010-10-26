@@ -18,7 +18,9 @@ virtual void operator()(File & file, File_Event /* file_event */)
   TCP_Server server(file);
   TCP_Socket sock(server.accept());
   std::cout << "Accepted connection" << std::endl;
-  std::cout << sock.getline() << std::endl;
+  std::string line = sock.gets();
+  std::cout << line << std::endl;
+  file.puts(line);
 }
 
 };

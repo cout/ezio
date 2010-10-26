@@ -3,8 +3,10 @@
 
 #include <vector>
 #include <algorithm>
+#include <cstring>
 
 #include <unistd.h>
+#include <sys/uio.h>
 
 #include <iostream> // TODO: remove
 
@@ -96,7 +98,7 @@ private:
 ezio::File::
 File()
   : fd_(-1)
-  , buffer_(0)
+  , read_buffer_(0)
 {
 }
 
@@ -104,14 +106,14 @@ ezio::File::
 File(File const & file)
   : Shared_Object(file)
   , fd_(file.fd_)
-  , buffer_(0)
+  , read_buffer_(0)
 {
 }
 
 ezio::File::
 ~File()
 {
-  delete buffer_;
+  delete read_buffer_;
 }
 
 void
@@ -136,9 +138,35 @@ fdopen(int fd)
   fd_ = fd;
 }
 
+void
+ezio::File::
+puts(std::string const & line)
+{
+  puts(line.c_str(), line.length());
+}
+
+void
+ezio::File::
+puts(char const * line)
+{
+  puts(line, strlen(line));
+}
+
+void
+ezio::File::
+puts(char const * line, size_t bytes)
+{
+  char newline[] = "\n";
+  struct iovec iov[] = {
+    { const_cast<char *>(line), bytes },
+    { newline, 1 },
+  };
+  writev(fd_, iov, 2);
+}
+
 std::string
 ezio::File::
-getline()
+gets()
 {
   std::string line;
   getline(line);
@@ -147,7 +175,7 @@ getline()
 
 std::string
 ezio::File::
-getline(char delim)
+gets(char delim)
 {
   std::string line;
   getline(line, delim);
@@ -165,47 +193,47 @@ void
 ezio::File::
 getline(std::string & str, char delim)
 {
-  if (!buffer_)
+  if (!read_buffer_)
   {
     // TODO: should be possible to avoid the allocation, but for now
     // this is easy
-    buffer_ = new Buffer;
+    read_buffer_ = new Buffer;
   }
 
   size_t idx = 0;
-  size_t bytes_read = buffer_->size();
+  size_t bytes_read = read_buffer_->size();
   size_t found_idx;
 
   // TODO: should there be a limit to the number of bytes we read to
   // avoid DoS due to out of memory?
-  while ((!buffer_->find(idx, idx + bytes_read, delim, &found_idx))) 
+  while ((!read_buffer_->find(idx, idx + bytes_read, delim, &found_idx))) 
   {
-    idx = buffer_->size();
-    bytes_read = buffer_->fill_from(fd_);
+    idx = read_buffer_->size();
+    bytes_read = read_buffer_->fill_from(fd_);
   }
 
-  str.assign(buffer_->begin(), buffer_->begin() + found_idx);
-  buffer_->erase(0, found_idx);
+  str.assign(read_buffer_->begin(), read_buffer_->begin() + found_idx);
+  read_buffer_->erase(0, found_idx);
 }
 
 char
 ezio::File::
 getc()
 {
-  if (!buffer_)
+  if (!read_buffer_)
   {
     // TODO: should be possible to avoid the allocation, but for now
     // this is easy
-    buffer_ = new Buffer;
+    read_buffer_ = new Buffer;
   }
 
-  while (buffer_->size() == 0)
+  while (read_buffer_->size() == 0)
   {
-    buffer_->fill_from(fd_);
+    read_buffer_->fill_from(fd_);
   }
 
-  char c = (*buffer_)[0];
-  buffer_->erase(0, 1);
+  char c = (*read_buffer_)[0];
+  read_buffer_->erase(0, 1);
 
   return c;
 }

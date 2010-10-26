@@ -31,3 +31,7 @@ HTTP/FTP/etc.?
   - Not currently supported, but could be in the future.  Maybe a
     libcurl wrapper?
 
+Requirements:
+  - gmake
+  - POSIX.1-2001
+

@@ -1,7 +1,7 @@
 #ifndef ezio__Regex__hpp_
 #define ezio__Regex__hpp_
 
-#include "Exception.hpp"
+#include "exceptions/Exception.hpp"
 #include "Not_Copyable.hpp"
 
 #include <string>

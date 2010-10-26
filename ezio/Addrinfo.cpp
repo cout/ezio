@@ -1,5 +1,5 @@
 #include "Addrinfo.hpp"
-#include "Getaddrinfo_Exception.hpp"
+#include "exceptions/Getaddrinfo_Exception.hpp"
 
 #include <netdb.h>
 

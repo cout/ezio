@@ -1,7 +1,7 @@
 #ifndef ezio__Exception__hpp_
 #define ezio__Exception__hpp_
 
-#include "Backtrace.hpp"
+#include "ezio/Backtrace.hpp"
 
 #include <stdexcept>
 #include <string>

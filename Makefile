@@ -8,6 +8,8 @@ SOEXT = so
 OBJECTS =
 TARGETS =
 
+CXXFLAGS += -I$(TOPLEVEL_DIR)
+
 CXXFLAGS += -g -ggdb
 
 # === conventional rules ===
@@ -29,24 +31,24 @@ link_bin = $(CXX) $(1) $(LDFLAGS) $^ -o $@
 
 EZIO_SOURCES = \
 			 ezio/Addrinfo \
-			 ezio/Connection_Failure \
 			 ezio/File \
-			 ezio/Getaddrinfo_Exception \
 			 ezio/Shared_Object \
 			 ezio/Socket \
-			 ezio/System_Exception \
 			 ezio/TCP_Socket \
 			 ezio/UDP_Socket \
-			 ezio/Bind_Failure \
 			 ezio/TCP_Server \
 			 ezio/Reactor \
 			 ezio/Libev_Reactor \
 			 ezio/cxx_demangle \
 			 ezio/Backtrace \
-			 ezio/Exception \
 			 ezio/Regex \
 			 ezio/File_Event \
-			 ezio/Runtime_Error \
+			 ezio/exceptions/Exception \
+			 ezio/exceptions/Runtime_Error \
+			 ezio/exceptions/Connection_Failure \
+			 ezio/exceptions/Getaddrinfo_Exception \
+			 ezio/exceptions/System_Exception \
+			 ezio/exceptions/Bind_Failure \
 
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)
@@ -62,7 +64,6 @@ all: libezio.$(SOEXT)
 
 # === sample rules ===
 
-SAMPLE_CXXFLAGS += -I$(TOPLEVEL_DIR)
 SAMPLE_LDFLAGS += -L$(TOPLEVEL_DIR) -lezio
 
 sample/%.$(OBJEXT): sample/%.cpp
@@ -70,7 +71,7 @@ sample/%.$(OBJEXT): sample/%.cpp
 
 # === sample/test ===
 
-sample/test: sample/test.$(OBJEXT)
+sample/test: sample/test.$(OBJEXT) libezio.so
 	$(call link_bin, $(SAMPLE_LDFLAGS))
 
 OBJECTS += sample/test.$(OBJEXT)
@@ -81,7 +82,7 @@ all: sample/test
 
 # === sample/server ===
 
-sample/server: sample/server.$(OBJEXT)
+sample/server: sample/server.$(OBJEXT) libezio.so
 	$(call link_bin, $(SAMPLE_LDFLAGS))
 
 OBJECTS += sample/server.$(OBJEXT)

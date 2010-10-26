@@ -2,12 +2,8 @@
 .*.swp
 *.cpp.gch
 *.hpp.gch
-ezio/*.o
-ezio/*.d
+*.o
+*.d
 sample/test
-sample/test.o
-sample/test.d
 sample/server
-sample/server.o
-sample/server.d
 libezio.so

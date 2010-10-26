@@ -1,6 +1,6 @@
 #include "Socket.hpp"
 #include "Addrinfo.hpp"
-#include "Connection_Failure.hpp"
+#include "exceptions/Connection_Failure.hpp"
 
 #include <sstream>
 

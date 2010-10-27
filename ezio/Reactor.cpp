@@ -1,5 +1,9 @@
 #include "Reactor.hpp"
 
+#include "exceptions/System_Exception.hpp"
+
+#include <unistd.h>
+
 ezio::Reactor::
 Reactor()
 {
@@ -25,5 +29,28 @@ io_add(
       event3);
 
   return io_add(file, file_callback, file_event);
+}
+
+ezio::PID
+ezio::Reactor::
+fork()
+{
+  PID pid(::fork());
+
+  if (pid < 0)
+  {
+    throw System_Exception("fork");
+  }
+  else
+  {
+    forked(pid);
+    return pid;
+  }
+}
+
+void
+ezio::Reactor::
+forked(PID pid)
+{
 }
 

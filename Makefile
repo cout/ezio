@@ -50,6 +50,7 @@ EZIO_SOURCES = \
 			 ezio/exceptions/System_Exception \
 			 ezio/exceptions/Bind_Failure \
 			 ezio/Time_Value \
+			 ezio/PID \
 
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)

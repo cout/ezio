@@ -188,3 +188,24 @@ timer_add(
   return key;
 }
 
+void
+ezio::Libev_Reactor::
+forked(PID pid)
+{
+  ev_child cw;
+
+  if (pid == 0)
+  {
+    // child
+    ev_loop_fork(loop_);
+
+    // TODO: how to inform other reactor loops about the child?
+  }
+  else
+  {
+    // parent
+
+    // TODO: do we care about getting a callback when the child exits?
+  }
+}
+

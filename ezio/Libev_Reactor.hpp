@@ -31,6 +31,9 @@ public:
       Time_Value delay,
       Time_Value repeat);
 
+protected:
+  virtual void forked(PID pid);
+
 private:
   struct ev_loop * loop_;
 };

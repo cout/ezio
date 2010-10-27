@@ -5,6 +5,7 @@
 #include "File_Event.hpp"
 #include "Not_Copyable.hpp"
 #include "Time_Value.hpp"
+#include "PID.hpp"
 
 #include <functional>
 
@@ -53,6 +54,11 @@ public:
       Timer_Callback & timer_callback,
       Time_Value delay,
       Time_Value repeat) = 0;
+
+  PID fork();
+
+protected:
+  virtual void forked(PID pid);
 };
 
 } // ezio

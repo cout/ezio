@@ -30,9 +30,12 @@ public:
 
   void connect(
       Addrinfo const & addrinfo);
+
+  void bind(
+      Addrinfo const & addrinfo);
 };
 
-}
+} // ezio
 
 #endif // ezio__Socket__hpp_
 

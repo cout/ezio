@@ -1,5 +1,5 @@
-#ifndef ezio__hpp_
-#define ezio__hpp_
+#ifndef ezio__Connection_Failure__hpp_
+#define ezio__Connection_Failure__hpp_
 
 #include "Runtime_Error.hpp"
 
@@ -16,4 +16,4 @@ public:
 
 }
 
-#endif // ezio__hpp_
+#endif // ezio__Connection_Failure__hpp_

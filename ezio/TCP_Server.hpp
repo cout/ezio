@@ -38,9 +38,6 @@ public:
       Addrinfo const & addrinfo,
       int backlog=DEFAULT_BACKLOG);
 
-  void bind(
-      Addrinfo const & addrinfo);
-
   void listen(int backlog=DEFAULT_BACKLOG);
 
   TCP_Socket accept();

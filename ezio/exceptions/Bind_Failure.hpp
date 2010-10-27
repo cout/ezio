@@ -1,5 +1,5 @@
-#ifndef ezio__hpp_
-#define ezio__hpp_
+#ifndef ezio__Bind_Failure__hpp_
+#define ezio__Bind_Failure__hpp_
 
 #include "Runtime_Error.hpp"
 
@@ -14,6 +14,6 @@ public:
       std::string const & msg);
 };
 
-}
+} // ezio
 
-#endif // ezio__hpp_
+#endif // ezio__Bind_Failure__hpp_

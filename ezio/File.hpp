@@ -45,6 +45,8 @@ public:
 
   char getc();
 
+  bool isatty();
+
 private:
   int fd_;
 

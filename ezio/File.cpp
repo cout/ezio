@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#include <cerrno>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -280,5 +281,28 @@ getc()
   read_buffer_->erase(0, 1);
 
   return c;
+}
+
+bool
+ezio::File::
+isatty()
+{
+  int result = ::isatty(fd_);
+
+  if(result == 1)
+  {
+    return true;
+  }
+  else
+  {
+    if (errno == EINVAL)
+    {
+      return false;
+    }
+    else
+    {
+      throw System_Exception("isatty");
+    }
+  }
 }
 

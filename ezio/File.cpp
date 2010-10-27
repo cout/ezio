@@ -6,7 +6,10 @@
 #include <cstring>
 
 #include <unistd.h>
+#include <fcntl.h>
+
 #include <sys/uio.h>
+#include <sys/stat.h>
 
 #include <iostream> // TODO: remove
 
@@ -103,6 +106,14 @@ File()
 }
 
 ezio::File::
+File(std::string const & pathname, int flags, File_Mode mode)
+  : fd_(-1)
+  , read_buffer_(0)
+{
+  open(pathname, flags, mode);
+}
+
+ezio::File::
 File(File const & file)
   : Shared_Object(file)
   , fd_(file.fd_)
@@ -123,6 +134,17 @@ close()
   if (fd_ >= 0)
   {
     ::close(fd_);
+  }
+}
+
+void
+ezio::File::
+open(std::string const & pathname, int flags, File_Mode mode)
+{
+  int result = ::open(pathname.c_str(), flags, mode.value());
+  if (result < 0)
+  {
+    throw System_Exception("open");
   }
 }
 

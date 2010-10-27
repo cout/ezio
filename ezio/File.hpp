@@ -2,6 +2,7 @@
 #define ezio__File__hpp_
 
 #include "Shared_Object.hpp"
+#include "File_Mode.hpp"
 
 #include <string>
 
@@ -13,10 +14,12 @@ class File
 {
 public:
   File();
-
+  File(std::string const & pathname, int flags, File_Mode mode = 0777);
   File(File const & file);
 
   virtual ~File();
+
+  void open(std::string const & pathname, int flags, File_Mode mode = 0777);
 
   virtual void close();
 

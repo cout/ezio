@@ -142,10 +142,32 @@ ezio::File::
 open(std::string const & pathname, int flags, File_Mode mode)
 {
   int result = ::open(pathname.c_str(), flags, mode.value());
+
   if (result < 0)
   {
     throw System_Exception("open");
   }
+}
+
+ezio::File_Offset
+ezio::File::
+seek(File_Offset offset, Whence whence)
+{
+  off_t result = ::lseek(fd_, offset, whence);
+
+  if (result == (off_t)-1)
+  {
+    throw System_Exception("lseek");
+  }
+
+  return File_Offset(result);
+}
+
+ezio::File_Offset
+ezio::File::
+tell()
+{
+  return seek(0, Whence::CUR);
 }
 
 void

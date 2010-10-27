@@ -3,6 +3,8 @@
 
 #include "Shared_Object.hpp"
 #include "File_Mode.hpp"
+#include "File_Offset.hpp"
+#include "Whence.hpp"
 
 #include <string>
 
@@ -22,6 +24,10 @@ public:
   void open(std::string const & pathname, int flags, File_Mode mode = 0777);
 
   virtual void close();
+
+  File_Offset seek(File_Offset offset, Whence whence);
+
+  File_Offset tell();
 
   int fd() const { return fd_; }
 

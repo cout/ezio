@@ -51,6 +51,9 @@ EZIO_SOURCES = \
 			 ezio/exceptions/Bind_Failure \
 			 ezio/Time_Value \
 			 ezio/PID \
+			 ezio/File_Mode \
+			 ezio/File_Offset \
+			 ezio/Whence \
 
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)

@@ -49,6 +49,7 @@ EZIO_SOURCES = \
 			 ezio/exceptions/Getaddrinfo_Exception \
 			 ezio/exceptions/System_Exception \
 			 ezio/exceptions/Bind_Failure \
+			 ezio/Time_Value \
 
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)

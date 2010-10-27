@@ -4,6 +4,7 @@
 #include "File.hpp"
 #include "File_Event.hpp"
 #include "Not_Copyable.hpp"
+#include "Time_Value.hpp"
 
 #include <functional>
 
@@ -14,12 +15,6 @@ class Reactor
   : private Not_Copyable
 {
 public:
-  struct File_Callback
-    : public std::binary_function<File, File_Event, void>
-  {
-    virtual void operator()(File &, File_Event) = 0;
-  };
-
   Reactor();
 
   virtual ~Reactor();
@@ -27,6 +22,12 @@ public:
   virtual void run() = 0;
 
   virtual void stop() = 0;
+
+  struct File_Callback
+    : public std::binary_function<File, File_Event, void>
+  {
+    virtual void operator()(File &, File_Event) = 0;
+  };
 
   void * io_add(
       File & file,
@@ -42,6 +43,16 @@ public:
 
   virtual void io_remove(
       void * key) = 0;
+
+  struct Timer_Callback
+  {
+    virtual void operator()() = 0;
+  };
+
+  virtual void * timer_add(
+      Timer_Callback & timer_callback,
+      Time_Value delay,
+      Time_Value repeat) = 0;
 };
 
 } // ezio

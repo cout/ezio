@@ -26,6 +26,11 @@ public:
   virtual void io_remove(
       void * key);
 
+  virtual void * timer_add(
+      Timer_Callback & timer_callback,
+      Time_Value delay,
+      Time_Value repeat);
+
 private:
   struct ev_loop * loop_;
 };

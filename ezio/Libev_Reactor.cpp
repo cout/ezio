@@ -5,7 +5,11 @@
 
 extern "C"
 void
-ezio_libev_file_callback(EV_P_ ev_io * watcher, int revents);
+ezio_libev_file_callback(EV_P_ ev_io * io, int revents);
+
+extern "C"
+void
+ezio_libev_timer_callback(EV_P_ ev_timer * timer, int revents);
 
 namespace ezio
 {
@@ -20,7 +24,7 @@ struct Libev_Io_Watcher
     , callback_(callback)
   {
     ev_io_init(&io_, ezio_libev_file_callback, file.fd(), revents);
-    io_.data = static_cast<void *>(this);
+    io_.data = this;
   }
 
   void start(struct ev_loop * loop)
@@ -41,6 +45,34 @@ struct Libev_Io_Watcher
   File file_;
   Reactor::File_Callback & callback_;
   ev_io io_;
+};
+
+struct Libev_Timer_Watcher
+{
+  Libev_Timer_Watcher(Reactor::Timer_Callback & callback, Time_Value start, Time_Value delay)
+    : callback_(callback)
+  {
+    ev_timer_init(&timer_, ezio_libev_timer_callback, start.as_double(), delay.as_double());
+    timer_.data = this;
+  }
+
+  void start(struct ev_loop * loop)
+  {
+    ev_timer_start(loop, &timer_);
+  }
+
+  void stop(struct ev_loop * loop)
+  {
+    ev_timer_stop(loop, &timer_);
+  }
+
+  static Libev_Timer_Watcher * from_ev_timer(ev_timer * timer)
+  {
+    return static_cast<Libev_Timer_Watcher *>(timer->data);
+  }
+
+  Reactor::Timer_Callback & callback_;
+  ev_timer timer_;
 };
 
 int libev_event_type(ezio::File_Event file_event)
@@ -77,6 +109,14 @@ ezio_libev_file_callback(EV_P_ ev_io * io, int revents)
 {
   ezio::Libev_Io_Watcher * watcher = ezio::Libev_Io_Watcher::from_ev_io(io);
   watcher->callback_(watcher->file_, ezio::ezio_event_type(revents));
+}
+
+extern "C"
+void
+ezio_libev_timer_callback(EV_P_ ev_timer * timer, int revents)
+{
+  ezio::Libev_Timer_Watcher * watcher = ezio::Libev_Timer_Watcher::from_ev_timer(timer);
+  watcher->callback_();
 }
 
 ezio::Libev_Reactor::
@@ -130,5 +170,21 @@ io_remove(
   Libev_Io_Watcher * watcher = static_cast<Libev_Io_Watcher *>(key);
   watcher->stop(loop_);
   delete watcher;
+}
+
+void *
+ezio::Libev_Reactor::
+timer_add(
+    Timer_Callback & timer_callback,
+    Time_Value delay,
+    Time_Value repeat)
+{
+  std::auto_ptr<Libev_Timer_Watcher> watcher(
+      new Libev_Timer_Watcher(timer_callback, delay, repeat));
+  watcher->start(loop_);
+
+  void * key = static_cast<void *>(watcher.get());
+  watcher.release();
+  return key;
 }
 

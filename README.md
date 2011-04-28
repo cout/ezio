@@ -25,14 +25,17 @@ C++ =
   underlying C data types
 
 == Why libevent instead of libev? ==
+
 * Feel free to write a libev-based reactor.  I chose libevent because
   it had better documentation.
 
 == HTTP/FTP/etc.? ==
+
 * Not currently supported, but could be in the future.  Maybe a
   libcurl wrapper?
 
 == Requirements: ==
+
 * gmake
 * POSIX.1-2001
 

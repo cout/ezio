@@ -1,7 +1,8 @@
-= ezio - A library for doing simple I/O operations (sockets and files) in
-C++ =
+ezio - A library for doing simple I/O operations (sockets and files) in C++
+===========================================================================
 
-== Premises ==
+Premises
+--------
 
 * Easy things should be easy
 * Hard things should be easy, but not at the expense of easy things
@@ -24,17 +25,20 @@ C++ =
 * Whenever possible the library should provide access to the
   underlying C data types
 
-== Why libevent instead of libev? ==
+Why libevent instead of libev?
+------------------------------
 
 * Feel free to write a libev-based reactor.  I chose libevent because
   it had better documentation.
 
-== HTTP/FTP/etc.? ==
+HTTP/FTP/etc.?
+--------------
 
 * Not currently supported, but could be in the future.  Maybe a
   libcurl wrapper?
 
-== Requirements: ==
+Requirements
+-------------
 
 * gmake
 * POSIX.1-2001

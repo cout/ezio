@@ -67,6 +67,26 @@ TARGETS += libezio.$(SOEXT)
 
 all: libezio.$(SOEXT)
 
+# === unittest ===
+
+UNITTEST_SOURCES = \
+	test/unittest \
+	test/test_Shared_Object \
+
+UNITTEST_CXXFLAGS = -I $(HOME)/git/eztest
+
+UNITTEST_LDFLAGS = -L $(HOME)/git/eztest -leztest -L . -lezio
+
+UNITTEST_OBJS = $(addsuffix .$(OBJEXT), $(UNITTEST_SOURCES))
+
+test/%.$(OBJEXT): test/%.cpp
+	$(call compile_cpp, $(UNITTEST_CXXFLAGS))
+
+unittest: $(UNITTEST_OBJS)
+	$(call link_bin, $(UNITTEST_LDFLAGS))
+
+TARGETS += unittest
+
 # === sample rules ===
 
 SAMPLE_LDFLAGS += -L$(TOPLEVEL_DIR) -lezio
@@ -83,8 +103,6 @@ OBJECTS += sample/test.$(OBJEXT)
 
 TARGETS += sample/test
 
-all: sample/test
-
 # === sample/server ===
 
 sample/server: sample/server.$(OBJEXT) libezio.so
@@ -94,9 +112,9 @@ OBJECTS += sample/server.$(OBJEXT)
 
 TARGETS += sample/server
 
-all: sample/server
-
 # === dependencies ===
+
+all: $(TARGETS)
 
 CXXFLAGS += -MMD -MP
 DEP_FILES = $(OBJECTS:%.$(OBJEXT)=%.d)

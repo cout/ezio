@@ -17,7 +17,14 @@ ezio::Shared_Object::
 
   if (prev_ == next_)
   {
-    close();
+    // We can't call close directly, because it's a virtual function and
+    // we're in the destructor.  So we construct a temporary copy on the
+    // stack and call close() on it.
+    // The temporary object's destructor won't try to call close,
+    // because tmp.prev_ != tmp.next_ (since once we make the temporary
+    // there will be two copies).
+    Shared_Object tmp(*this);
+    tmp.close();
   }
 }
 

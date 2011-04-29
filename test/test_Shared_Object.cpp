@@ -1,26 +1,26 @@
 #include <ezio/Shared_Object.hpp>
 #include <eztest/eztest.hpp>
 
+#include <iostream>
+
 using namespace ezio;
 
 TESTSUITE(Shared_Object);
 
 class CloseIsCalledHelper
-  : public Shared_Object
+  : private Shared_Object<int *, CloseIsCalledHelper>
 {
 public:
   CloseIsCalledHelper(int * i)
-    : i_(i)
+    : Shared_Object<int *, CloseIsCalledHelper>(i)
   {
   }
 
-  virtual void close()
+  static void finalize(int * i)
   {
-    *i_ = 42;
+    std::cout << "close" << std::endl;
+    *i = 42;
   }
-
-private:
-  int * i_;
 };
 
 TESTCASE(close_is_called_when_no_more_refs)
@@ -28,7 +28,7 @@ TESTCASE(close_is_called_when_no_more_refs)
   int i = 0;
   {
     CloseIsCalledHelper tmp(&i);
-    Shared_Object copy(tmp);
+    CloseIsCalledHelper copy(tmp);
   }
   ASSERT_EQUAL(42, i);
 }

@@ -12,7 +12,6 @@ namespace ezio
 {
 
 class File
-  : public Shared_Object
 {
 public:
   File();
@@ -29,7 +28,7 @@ public:
 
   File_Offset tell();
 
-  int fd() const { return fd_; }
+  int fd() const { return fd_.get(); }
 
   void fdopen(int fd);
 
@@ -47,8 +46,10 @@ public:
 
   bool isatty();
 
+  static void finalize(int fd);
+
 private:
-  int fd_;
+  Shared_Object<int, File> fd_;
 
   class Buffer;
   Buffer * read_buffer_;

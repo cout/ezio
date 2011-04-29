@@ -32,7 +32,6 @@ link_bin = $(CXX) $(1) $(LDFLAGS) $^ -o $@
 EZIO_SOURCES = \
 			 ezio/Addrinfo \
 			 ezio/File \
-			 ezio/Shared_Object \
 			 ezio/Socket \
 			 ezio/TCP_Socket \
 			 ezio/UDP_Socket \

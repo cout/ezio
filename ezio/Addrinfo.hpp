@@ -13,19 +13,18 @@ namespace ezio
 {
 
 class Addrinfo
-  : public Shared_Object
 {
 public:
   Addrinfo(
       std::string const & node,
       std::string const & service);
 
-  virtual void close();
+  static void finalize(struct addrinfo * addrinfo);
 
-  struct addrinfo const * addrinfo() const { return addrinfo_; }
+  struct addrinfo const * addrinfo() const { return addrinfo_.get(); }
 
 private:
-  struct addrinfo * addrinfo_;
+  Shared_Object<struct addrinfo *, Addrinfo> addrinfo_;
 };
 
 }

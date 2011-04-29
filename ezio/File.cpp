@@ -12,8 +12,6 @@
 #include <sys/uio.h>
 #include <sys/stat.h>
 
-#include <iostream> // TODO: remove
-
 class ezio::File::Buffer
 {
 public:
@@ -116,8 +114,7 @@ File(std::string const & pathname, int flags, File_Mode mode)
 
 ezio::File::
 File(File const & file)
-  : Shared_Object(file)
-  , fd_(file.fd_)
+  : fd_(file.fd_)
   , read_buffer_(0)
 {
 }
@@ -132,9 +129,10 @@ void
 ezio::File::
 close()
 {
-  if (fd_ >= 0)
+  if (fd() >= 0)
   {
-    ::close(fd_);
+    ::close(fd());
+    fd_.set(-1);
   }
 }
 
@@ -154,7 +152,7 @@ ezio::File_Offset
 ezio::File::
 seek(File_Offset offset, Whence whence)
 {
-  off_t result = ::lseek(fd_, offset, whence);
+  off_t result = ::lseek(fd(), offset, whence);
 
   if (result == (off_t)-1)
   {
@@ -175,12 +173,12 @@ void
 ezio::File::
 fdopen(int fd)
 {
-  if (fd_ >= 0)
+  if (this->fd() >= 0)
   {
     close();
   }
 
-  fd_ = fd;
+  fd_.set(-1);
 }
 
 void
@@ -206,7 +204,7 @@ puts(char const * line, size_t bytes)
     { const_cast<char *>(line), bytes },
     { newline, 1 },
   };
-  writev(fd_, iov, 2);
+  writev(fd(), iov, 2);
 }
 
 std::string
@@ -254,7 +252,7 @@ getline(std::string & str, char delim)
   while ((!read_buffer_->find(idx, idx + bytes_read, delim, &found_idx))) 
   {
     idx = read_buffer_->size();
-    bytes_read = read_buffer_->fill_from(fd_);
+    bytes_read = read_buffer_->fill_from(fd());
   }
 
   str.assign(read_buffer_->begin(), read_buffer_->begin() + found_idx);
@@ -274,7 +272,7 @@ getc()
 
   while (read_buffer_->size() == 0)
   {
-    read_buffer_->fill_from(fd_);
+    read_buffer_->fill_from(fd());
   }
 
   char c = (*read_buffer_)[0];
@@ -287,7 +285,7 @@ bool
 ezio::File::
 isatty()
 {
-  int result = ::isatty(fd_);
+  int result = ::isatty(fd());
 
   if(result == 1)
   {
@@ -303,6 +301,17 @@ isatty()
     {
       throw System_Exception("isatty");
     }
+  }
+}
+
+void
+ezio::File::
+finalize(int fd)
+{
+  // TODO: duplicated with File::close()
+  if (fd >= 0)
+  {
+    ::close(fd);
   }
 }
 

@@ -53,6 +53,7 @@ EZIO_SOURCES = \
 			 ezio/File_Mode \
 			 ezio/File_Offset \
 			 ezio/Whence \
+			 ezio/Context \
 
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)

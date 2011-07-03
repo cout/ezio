@@ -42,4 +42,5 @@ Requirements
 
 * gmake
 * POSIX.1-2001
+* libev
 

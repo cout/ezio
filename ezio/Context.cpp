@@ -10,17 +10,17 @@ Context()
 ezio::Context
 ezio::Context::
 makecontext(
-    Context & link,
     char * stack,
     size_t stack_size,
-    void (*func)(void))
+    void (*func)(void),
+    Context * link)
 {
   Context context;
   EZIO_GETCONTEXT(context);
 
   context.ctx_.uc_stack.ss_sp = stack;
   context.ctx_.uc_stack.ss_size = stack_size;
-  context.ctx_.uc_link = &link.ctx_; // TODO: ensure that the other context sticks around
+  context.ctx_.uc_link = link ? &link->ctx_ : 0; // TODO: ensure that the other context sticks around
 
   ::makecontext(&context.ctx_, func, 0);
 

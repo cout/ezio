@@ -29,19 +29,19 @@ public:
 
   // Create a new context.
   //
-  // link - context which will be resumed when this context terminates
-  // (i.e. when func returns)
-  //
   // stack - pointer to stack space for this context
   //
   // stack_size - size of the stack space
   //
   // func - function to invoke for this context
+  //
+  // link - context which will be resumed when this context terminates
+  // (i.e. when func returns; can be null)
   static Context makecontext(
-      Context & link,
       char * stack,
       size_t stack_size,
-      void (*func)(void));
+      void (*func)(void),
+      Context * link);
 
   void swapcontext(Context & save);
 

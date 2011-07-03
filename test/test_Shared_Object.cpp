@@ -1,8 +1,6 @@
 #include <ezio/Shared_Object.hpp>
 #include <eztest/eztest.hpp>
 
-#include <iostream>
-
 using namespace ezio;
 
 TESTSUITE(Shared_Object);
@@ -18,7 +16,6 @@ public:
 
   static void finalize(int * i)
   {
-    std::cout << "close" << std::endl;
     *i = 42;
   }
 };

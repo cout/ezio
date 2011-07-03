@@ -72,6 +72,7 @@ all: libezio.$(SOEXT)
 UNITTEST_SOURCES = \
 	test/unittest \
 	test/test_Shared_Object \
+	test/test_Context \
 
 UNITTEST_CXXFLAGS = -I $(HOME)/git/eztest
 

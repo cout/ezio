@@ -5,6 +5,7 @@
 #include "File_Mode.hpp"
 #include "File_Offset.hpp"
 #include "Whence.hpp"
+#include "Read_Buffer.hpp"
 
 #include <string>
 
@@ -51,8 +52,7 @@ public:
 private:
   Shared_Object<int, File> fd_;
 
-  class Buffer;
-  Buffer * read_buffer_;
+  Read_Buffer * read_buffer_;
 };
 
 } // ezio

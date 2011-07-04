@@ -1,4 +1,9 @@
 #include "Read_Buffer.hpp"
+#include "exceptions/System_Exception.hpp"
+
+#include <algorithm>
+
+#include <unistd.h>
 
 ezio::Read_Buffer::
 Read_Buffer()
@@ -31,7 +36,7 @@ size()
   return size_;
 }
 
-size_t
+ezio::Read_Buffer::value_type
 ezio::Read_Buffer::
 operator[](size_t idx)
 {

@@ -1,6 +1,8 @@
 #ifndef ezio__Read_Buffer__hpp_
 #define ezio__Read_Buffer__hpp_
 
+#include <vector>
+
 namespace ezio
 {
 
@@ -24,9 +26,9 @@ public:
   const_iterator begin() const;
   const_iterator end() const;
 
-  bool find(size_t begin_idx, size_t end_idx, char delim, size_t * found_idx)
+  bool find(size_t begin_idx, size_t end_idx, char delim, size_t * found_idx);
 
-  void erase(size_t begin_idx, size_t end_idx)
+  void erase(size_t begin_idx, size_t end_idx);
 
 private:
   // TODO: not the most efficient way to do I/O (in terms of # of memory

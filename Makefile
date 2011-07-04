@@ -55,7 +55,8 @@ EZIO_SOURCES = \
 			 ezio/Whence \
 			 ezio/Context \
 			 ezio/Fiber \
-			 ezio/Read_Buffer
+			 ezio/Read_Buffer \
+			 ezio/Streambuf
 
 EZIO_OBJS = $(addsuffix .$(OBJEXT), $(EZIO_SOURCES))
 OBJECTS += $(EZIO_OBJS)

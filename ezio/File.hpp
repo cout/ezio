@@ -5,12 +5,13 @@
 #include "File_Mode.hpp"
 #include "File_Offset.hpp"
 #include "Whence.hpp"
-#include "Read_Buffer.hpp"
 
 #include <string>
 
 namespace ezio
 {
+
+class Read_Buffer;
 
 class File
 {
@@ -32,6 +33,8 @@ public:
   int fd() const { return fd_.get(); }
 
   void fdopen(int fd);
+
+  size_t write(char const * buf, size_t count);
 
   void puts(std::string const & line);
   void puts(char const * line);

@@ -1,7 +1,7 @@
 #include "File.hpp"
+#include "Read_Buffer.hpp"
 #include "exceptions/System_Exception.hpp"
 
-#include <vector>
 #include <algorithm>
 #include <cstring>
 #include <cerrno>
@@ -88,12 +88,32 @@ void
 ezio::File::
 fdopen(int fd)
 {
+  // TODO: if there are other copies of this object, then we need to
+  // unlink from them, because we now no longer refer to the same fd
+
   if (this->fd() >= 0)
   {
     close();
   }
 
   fd_.set(-1);
+}
+
+
+size_t
+ezio::File::
+write(char const * buf, size_t count)
+{
+  ssize_t result = ::write(fd(), buf, count);
+
+  if (result < 0)
+  {
+    throw System_Exception("write");
+  }
+  else
+  {
+    return static_cast<size_t>(result);
+  }
 }
 
 void
@@ -119,7 +139,14 @@ puts(char const * line, size_t bytes)
     { const_cast<char *>(line), bytes },
     { newline, 1 },
   };
-  writev(fd(), iov, 2);
+
+  // TODO: handle the case where we didn't write out all the bytes we
+  // expected
+
+  if (::writev(fd(), iov, 2) < 0)
+  {
+    throw System_Exception("writev");
+  }
 }
 
 std::string
@@ -155,7 +182,7 @@ getline(std::string & str, char delim)
   {
     // TODO: should be possible to avoid the allocation, but for now
     // this is easy
-    read_buffer_ = new Buffer;
+    read_buffer_ = new Read_Buffer;
   }
 
   size_t idx = 0;
@@ -182,7 +209,7 @@ getc()
   {
     // TODO: should be possible to avoid the allocation, but for now
     // this is easy
-    read_buffer_ = new Buffer;
+    read_buffer_ = new Read_Buffer;
   }
 
   while (read_buffer_->size() == 0)

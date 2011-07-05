@@ -16,6 +16,8 @@ class Reactor
   : private Not_Copyable
 {
 public:
+  typedef void * Event_Key;
+
   Reactor();
 
   virtual ~Reactor();
@@ -30,20 +32,20 @@ public:
     virtual void operator()(File &, File_Event) = 0;
   };
 
-  void * io_add(
+  Event_Key io_add(
       File & file,
       File_Callback & file_callback,
       File_Event::File_Event_Enum event1,
       File_Event::File_Event_Enum event2 = File_Event::NONE,
       File_Event::File_Event_Enum event3 = File_Event::NONE);
 
-  virtual void * io_add(
+  virtual Event_Key io_add(
       File & file,
       File_Callback & file_callback,
       File_Event file_event) = 0;
 
   virtual void io_remove(
-      void * key) = 0;
+      Event_Key key) = 0;
 
   struct Timer_Callback
   {

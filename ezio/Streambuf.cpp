@@ -15,6 +15,7 @@ overflow(int c)
 
   if (write_buffer_.size() >= WRITE_BUFFER_SIZE)
   {
+    sync();
   }
 }
 

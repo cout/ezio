@@ -37,7 +37,7 @@ TESTCASE(schedule)
 {
   Fiber fiber(
       schedule_helper,
-      1024);
+      16384);
 
   scheduled = false;
   fiber.schedule();

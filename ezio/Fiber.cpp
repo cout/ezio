@@ -8,11 +8,12 @@ Fiber(
   : stack_size_(stack_size)
   , stack_(stack ? stack : new char[stack_size])
   , free_stack_(stack ? false : true)
+  , link_(EZIO_GETCONTEXT(link_))
   , context_(Context::makecontext(
           stack_,
           stack_size_,
           func,
-          0)) // TODO: define a successor?
+          &link_))
 {
 }
 

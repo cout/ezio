@@ -25,6 +25,7 @@ private:
   size_t stack_size_;
   char * stack_;
   bool free_stack_;
+  Context link_;
   Context context_;
 };
 

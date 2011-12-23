@@ -77,6 +77,7 @@ UNITTEST_SOURCES = \
 	test/unittest \
 	test/test_Shared_Object \
 	test/test_Context \
+	test/test_Fiber \
 
 UNITTEST_CXXFLAGS = -I $(HOME)/git/eztest
 

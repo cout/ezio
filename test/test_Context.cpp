@@ -30,3 +30,42 @@ TESTCASE(setcontext)
   ASSERT_EQUAL(2, i);
 }
 
+namespace
+{
+
+static bool invoked = false;
+
+void makecontext_helper()
+{
+  invoked = true;
+}
+
+} // namespace
+
+TESTCASE(makecontext)
+{
+  char stack[1024];
+
+  Context context(Context::makecontext(
+          stack,
+          sizeof(stack),
+          makecontext_helper));
+}
+
+TESTCASE(swapcontext)
+{
+  char stack[1024];
+
+  Context context(Context::makecontext(
+          stack,
+          sizeof(stack),
+          makecontext_helper));
+
+  invoked = false;
+
+  Context current;
+  EZIO_GETCONTEXT(current);
+
+  current.swapcontext(context);
+}
+

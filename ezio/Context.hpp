@@ -7,9 +7,9 @@
 
 // Need to use a macro because if we return from the function in which
 // getcontext is called, the context becomes invalidated.
-#define EZIO_GETCONTEXT(context) \
-  ((::getcontext(&context.context()) < 0) \
-    ? (throw ::ezio::System_Exception("getcontext"), context) \
+#define EZIO_GETCONTEXT(ctx) \
+  ((::getcontext(&ctx.context()) < 0) \
+    ? (throw ::ezio::System_Exception("getcontext"), ctx) \
     : context)
 
 namespace ezio
@@ -25,8 +25,6 @@ public:
   {
   }
 
-  static Context getcontext();
-
   // Create a new context.
   //
   // stack - pointer to stack space for this context
@@ -41,7 +39,7 @@ public:
       char * stack,
       size_t stack_size,
       void (*func)(void),
-      Context * link);
+      Context * link = 0);
 
   void swapcontext(Context & save);
 

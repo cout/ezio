@@ -13,8 +13,6 @@ TESTCASE(getcontext)
   EZIO_GETCONTEXT(context);
 }
 
-#include <ucontext.h>
-
 TESTCASE(setcontext)
 {
   int i = 0;

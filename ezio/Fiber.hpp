@@ -19,7 +19,7 @@ public:
 
   void schedule();
 
-  Context const & context() { return context_; }
+  Context const & context() const { return context_; }
 
 private:
   size_t stack_size_;

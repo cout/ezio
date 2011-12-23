@@ -30,38 +30,6 @@ void schedule_helper()
 {
   scheduled = true;
 }
-namespace
-{
-
-void create_helper()namespace
-{
-
-void create_helper()
-{
-}
-
-} // namespace
-
-TESTCASE(create)
-{
-  Fiber fiber(
-      create_helper,
-      1024);
-}
-
-
-{
-}
-
-} // namespace
-
-TESTCASE(create)
-{
-  Fiber fiber(
-      create_helper,
-      1024);
-}
-
 
 } // namespace
 

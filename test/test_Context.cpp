@@ -33,11 +33,8 @@ TESTCASE(setcontext)
 namespace
 {
 
-static bool invoked = false;
-
 void makecontext_helper()
 {
-  invoked = true;
 }
 
 } // namespace
@@ -52,20 +49,71 @@ TESTCASE(makecontext)
           makecontext_helper));
 }
 
-TESTCASE(swapcontext)
+namespace
+{
+
+static bool sr_invoked = false;
+
+void sr_helper()
+{
+  sr_invoked = true;
+}
+
+} // namespace
+
+TESTCASE(swapcontext__function_returns)
+{
+  char stack[1024];
+
+  Context current;
+
+  Context context(Context::makecontext(
+          stack,
+          sizeof(stack),
+          sr_helper,
+          &current));
+
+  sr_invoked = false;
+
+  EZIO_GETCONTEXT(current);
+
+  context.swapcontext(current);
+  ASSERT(sr_invoked);
+}
+
+namespace
+{
+
+static bool ss_invoked = false;
+Context ss_helper_ctx;
+
+void ss_helper()
+{
+  ss_invoked = true;
+
+  Context context;
+  ss_helper_ctx.swapcontext(context);
+}
+
+} // namespace
+
+TESTCASE(swapcontext__function_swaps)
 {
   char stack[1024];
 
   Context context(Context::makecontext(
           stack,
           sizeof(stack),
-          makecontext_helper));
+          ss_helper,
+          &ss_helper_ctx));
 
-  invoked = false;
+  ss_invoked = false;
 
-  Context current;
-  EZIO_GETCONTEXT(current);
+  if (!ss_invoked)
+  {
+    context.swapcontext(ss_helper_ctx);
+  }
 
-  current.swapcontext(context);
+  ASSERT(ss_invoked);
 }
 

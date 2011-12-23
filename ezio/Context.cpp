@@ -7,6 +7,20 @@ Context()
 {
 }
 
+ezio::Context &
+ezio::Context::
+check_getcontext(
+    Context & context,
+    int getcontext_result)
+{
+  if (getcontext_result < 0)
+  {
+    throw ezio::System_Exception("getcontext");
+  }
+
+  return context;
+}
+
 ezio::Context
 ezio::Context::
 makecontext(

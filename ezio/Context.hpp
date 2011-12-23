@@ -8,9 +8,9 @@
 // Need to use a macro because if we return from the function in which
 // getcontext is called, the context becomes invalidated.
 #define EZIO_GETCONTEXT(ctx) \
-  ((::getcontext(&ctx.context()) < 0) \
-    ? (throw ::ezio::System_Exception("getcontext"), ctx) \
-    : context)
+  Context::check_getcontext( \
+      ctx, \
+      ::getcontext(&ctx.context()))
 
 namespace ezio
 {
@@ -24,6 +24,10 @@ public:
     : ctx_(context)
   {
   }
+
+  static Context & check_getcontext(
+      Context & context,
+      int getcontext_result);
 
   // Create a new context.
   //

@@ -41,6 +41,14 @@ public:
       void (*func)(void),
       Context * link = 0);
 
+  template<typename Arg1_T>
+  static Context makecontext(
+      char * stack,
+      size_t stack_size,
+      void (*func)(void),
+      Arg1_T const & arg1,
+      Context * link = 0);
+
   void swapcontext(Context & save);
 
   void setcontext();
@@ -53,5 +61,7 @@ private:
 };
 
 } // ezio
+
+#include "Context.ipp"
 
 #endif // ezio__Context__hpp_
